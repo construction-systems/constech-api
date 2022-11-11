@@ -15,7 +15,7 @@ public abstract class BaseResponse<T>
         Resource = resource;
     }
 
-    private bool Success { get; set; }
-    private string Message { get; set; }
-    private T Resource { get; set; }
+    public bool Success { get; set; }
+    public string Message { get; set; }
+    public T Resource { get; set; }
 }

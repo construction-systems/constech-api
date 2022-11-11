@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Constech.API/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+    restart: always
+    environment:
+      - DBHOST=db
+      - ASPNETCORE_ENVIRONMENT=Development
+  db:
+    image: mysql:5.6
+    platform: linux/amd64
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql:delegated
+volumes:
+  mysql:
