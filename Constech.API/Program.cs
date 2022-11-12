@@ -1,6 +1,6 @@
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
-using Constech.API.Persistence;
+using Constech.API.Persistence.Repositories;
 using Constech.API.Services;
 using Constech.API.Shared.Domain.Repositories;
 using Constech.API.Shared.Persistence.Contexts;
@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 
 builder.Services.AddSwaggerGen();
 
@@ -40,7 +41,12 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // API Injection Configuration
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-builder.Services.AddScoped<IProjectsService, ProjectsService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+
+// AutoMapper Configuration
+builder.Services.AddAutoMapper(
+    typeof(Constech.API.Mapping.ModelToResourceProfile),
+    typeof(Constech.API.Mapping.ResourceToModelProfile));
 
 
 var app = builder.Build();
@@ -49,18 +55,18 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 using (var context = scope.ServiceProvider.GetService<AppDbContext>())
 {
-    context.Database.EnsureCreated();
+  context.Database.EnsureCreated();
 }
 
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(opts =>
-    {
-        opts.SwaggerEndpoint("v1/swagger.json", "v1");
-        opts.RoutePrefix = "swagger";
-    });
+  app.UseSwagger();
+  app.UseSwaggerUI(opts =>
+  {
+    opts.SwaggerEndpoint("v1/swagger.json", "v1");
+    opts.RoutePrefix = "swagger";
+  });
 }
 
 app.UseCors(x => x

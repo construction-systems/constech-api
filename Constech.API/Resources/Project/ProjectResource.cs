@@ -1,4 +1,4 @@
-namespace Constech.API.Resources;
+namespace Constech.API.Resources.Project;
 
 public class ProjectResource
 {

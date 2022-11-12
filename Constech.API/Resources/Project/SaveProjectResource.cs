@@ -1,12 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Constech.API.Resources;
+namespace Constech.API.Resources.Project;
 
-[SwaggerSchema(Required = new []{ "Name" })]
+[SwaggerSchema(Required = new []{ "Title" })]
 public class SaveProjectResource
 {
-    [SwaggerSchema("Category Name")]
+    [SwaggerSchema("Project Title")]
     [Required]
-    public string Name { get; set; }
+    public string Title { get; set; }
+    
+    [SwaggerSchema("Project Description")]
+    public string Description { get; set; }
 }
