@@ -1,3 +1,6 @@
+using Constech.API.Authorization.Handlers.Implementations;
+using Constech.API.Authorization.Handlers.Interfaces;
+using Constech.API.Authorization.Settings;
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
 using Constech.API.Persistence.Repositories;
@@ -6,6 +9,7 @@ using Constech.API.Shared.Domain.Repositories;
 using Constech.API.Shared.Persistence.Contexts;
 using Constech.API.Shared.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +21,46 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "ACME Learning Center API",
+        Description = "ACME Learning Center RESTful API",
+        TermsOfService = new Uri("https://acme-learning.com/tos"),
+        Contact = new OpenApiContact
+        {
+            Name = "ACME.studio",
+            Url = new Uri("https://acme.studio")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "ACME Learning Center Resources License",
+            Url = new Uri("https://acme-learning.com/license")
+        }
+    });
+    options.EnableAnnotations();
+    options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 // Configure the HTTP request pipeline
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -43,10 +85,19 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
+// Security Injection Configuration
+
+builder.Services.AddScoped<IJwtHandler, JwtHandler>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 // AutoMapper Configuration
 builder.Services.AddAutoMapper(
     typeof(Constech.API.Mapping.ModelToResourceProfile),
-    typeof(Constech.API.Mapping.ResourceToModelProfile));
+    typeof(Constech.API.Security.Mapping.ModelToResourceProfile),
+    typeof(Constech.API.Mapping.ResourceToModelProfile),
+    typeof(Constech.API.Security.Mapping.ResourceToModelProfile)
+);
 
 
 var app = builder.Build();
