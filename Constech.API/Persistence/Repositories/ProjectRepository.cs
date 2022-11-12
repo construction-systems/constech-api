@@ -4,19 +4,19 @@ using Constech.API.Shared.Persistence.Contexts;
 using Constech.API.Shared.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Constech.API.Persistence;
+namespace Constech.API.Persistence.Repositories;
 
 public class ProjectRepository : BaseRepository, IProjectRepository
 {
     public ProjectRepository(AppDbContext context) : base(context) { }
 
-    public async Task<IEnumerable<Project?>> ListAsync()
+    public async Task<IEnumerable<Project>> ListAsync()
     {
         return await _context.Projects
             .ToListAsync();
     }
 
-    public async Task AddAsync(Project? project)
+    public async Task AddAsync(Project project)
     {
         await _context.Projects.AddAsync(project);
     }
@@ -24,7 +24,7 @@ public class ProjectRepository : BaseRepository, IProjectRepository
     public async Task<Project?> FindByIdAsync(int projectId)
     {
         return await _context.Projects
-            .FirstOrDefaultAsync(p => p != null && p.Id == projectId);
+            .FirstOrDefaultAsync(p => p.Id == projectId);
     }
 
     public void Update(Project project)
