@@ -2,7 +2,7 @@ using System.Net;
 using System.Text.Json;
 using Constech.API.Exceptions;
 
-namespace Constech.API.Authorization.Middleware;
+namespace Constech.API.Security.Authorization.Middleware;
 
 public class ErrorHandlerMiddleware
 {

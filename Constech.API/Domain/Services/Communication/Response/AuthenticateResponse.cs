@@ -1,4 +1,4 @@
-namespace Constech.API.Domain.Services.Communication;
+namespace Constech.API.Domain.Services.Communication.Response;
 
 public class AuthenticateResponse
 {

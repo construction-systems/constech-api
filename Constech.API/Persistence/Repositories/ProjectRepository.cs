@@ -8,7 +8,11 @@ namespace Constech.API.Persistence.Repositories;
 
 public class ProjectRepository : BaseRepository, IProjectRepository
 {
-    public ProjectRepository(AppDbContext context) : base(context) { }
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public ProjectRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor) : base(context)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
 
     public async Task<IEnumerable<Project>> ListAsync()
     {

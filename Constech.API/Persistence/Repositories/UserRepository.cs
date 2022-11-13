@@ -15,12 +15,14 @@ public class UserRepository : BaseRepository, IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task AddAsync(User user)
+    public async Task<User> AddAsync(User user)
     {
         await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync(); 
+        return user;
     }
 
-    public async Task<User> FindByIdAsync(int id)
+    public async Task<User> FindByIdAsync(Guid id)
     {
         return await _context.Users.FindAsync(id);
     }

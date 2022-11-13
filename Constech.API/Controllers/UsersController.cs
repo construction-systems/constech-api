@@ -3,6 +3,7 @@ using Constech.API.Authorization.Attributes;
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Services;
 using Constech.API.Domain.Services.Communication;
+using Constech.API.Domain.Services.Communication.Request;
 using Constech.API.Resources.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,8 +35,8 @@ public class UsersController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        await _userService.RegisterAsync(request);
-        return Ok(new { message = "Registration successful" });
+        var user = await _userService.RegisterAsync(request);
+        return Ok(user);
     }
 
     [HttpGet("{id}")]

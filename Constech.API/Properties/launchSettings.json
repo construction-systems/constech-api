@@ -19,6 +19,11 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "Watch": {
+      "commandName": "Watch",
+      "workingDirectory": "$(ProjectDir)",
+      "commandLineArgs": "watch run"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,

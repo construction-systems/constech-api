@@ -7,7 +7,7 @@ using Constech.API.Domain.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Constech.API.Authorization.Handlers.Implementations;
+namespace Constech.API.Security.Authorization.Handlers.Implementations;
 
 public class JwtHandler : IJwtHandler
 {
@@ -20,13 +20,8 @@ public class JwtHandler : IJwtHandler
     
     public string GenerateToken(User user)
     {
-        // Generate Token for a valid period of 7 days
-            
-        Console.WriteLine($"Secret: {_appSettings.Secret}");
         var secret = _appSettings.Secret;
         var key = Encoding.ASCII.GetBytes(secret);
-        Console.WriteLine($"Secret Key: {key.Length}");
-        Console.WriteLine($"User Id: {user.Id.ToString()}");
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -40,8 +35,6 @@ public class JwtHandler : IJwtHandler
                 SecurityAlgorithms.HmacSha512Signature)
         };
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        Console.WriteLine($"Token Expiration: {tokenDescriptor.Expires.ToString()}");
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
             

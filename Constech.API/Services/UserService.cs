@@ -4,6 +4,8 @@ using Constech.API.Domain.Models;
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
 using Constech.API.Domain.Services.Communication;
+using Constech.API.Domain.Services.Communication.Request;
+using Constech.API.Domain.Services.Communication.Response;
 using Constech.API.Exceptions;
 using Constech.API.Shared.Domain.Repositories;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -18,8 +20,12 @@ public class UserService : IUserService
     private readonly IJwtHandler _jwtHandler;
     private readonly IMapper _mapper;
     
-    public UserService(IJwtHandler jwtHandler,
-        IMapper mapper, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public UserService(
+        IJwtHandler jwtHandler,
+        IMapper mapper,
+        IUserRepository userRepository,
+        IUnitOfWork unitOfWork
+        )
     {
         _jwtHandler = jwtHandler;
         _mapper = mapper;
@@ -29,22 +35,14 @@ public class UserService : IUserService
     public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
     {
         var user = await _userRepository.FindByUsernameAsync(request.Username);
-        Console.WriteLine($"Request: {request.Username}, {request.Password}");
-        Console.WriteLine($"User: {user.Id}, {user.FirstName}, {user.LastName}, {user.Username}, {user.Password}");
-        
+        if (user == null)
+            throw new AppException("User not found");
         // validate
         if (!BCryptNet.Verify(request.Password, user.Password))
-        {
-            Console.WriteLine("Authentication Error");
             throw new AppException("Username or password is incorrect");
-        }
-            
-        Console.WriteLine("Authentication successful. About to generate token");
         // authentication successful
         var response = _mapper.Map<AuthenticateResponse>(user);
-        Console.WriteLine($"Response: {response.Id}, {response.FirstName}, {response.LastName}, {response.Username}");
         response.Token = _jwtHandler.GenerateToken(user);
-        Console.WriteLine($"Generated token is {response.Token}");
         return response;
     }
 
@@ -53,12 +51,14 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<User> GetByIdAsync(Guid id)
+    public async Task<User> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.FindByIdAsync(id);
+        if (user == null) throw new KeyNotFoundException("User not found");
+        return user;
     }
 
-    public async Task RegisterAsync(RegisterRequest request)
+    public async Task<AuthenticateResponse> RegisterAsync(RegisterRequest request)
     {
         // validate
         if (_userRepository.ExistsByUsername(request.Username)) 
@@ -73,18 +73,16 @@ public class UserService : IUserService
         // save user
         try
         {
-            await _userRepository.AddAsync(user);
+            var newUser = await _userRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync();
+            var response = _mapper.Map<AuthenticateResponse>(newUser);
+            response.Token = _jwtHandler.GenerateToken(newUser);
+            return response;
         }
         catch (Exception e)
         {
             throw new AppException($"An error occurred while saving the user: {e.Message}");
         }
-    }
-
-    public Task UpdateAsync(int id, UpdateRequest model)
-    {
-        throw new NotImplementedException();
     }
 
     public Task DeleteAsync(int id)

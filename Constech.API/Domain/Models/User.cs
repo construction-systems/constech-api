@@ -11,6 +11,8 @@ public class User
     public string LastName { get; set; }
     public string Username { get; set; }
     
+    // Relationships
+    public Company? Company { get; set; }
     [JsonIgnore]
     public string Password { get; set; }
 }

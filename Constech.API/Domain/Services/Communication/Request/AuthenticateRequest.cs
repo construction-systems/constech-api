@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Constech.API.Domain.Services.Communication;
+namespace Constech.API.Domain.Services.Communication.Request;
 public class AuthenticateRequest
 {
     [Required] 

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Services.Communication;
+using Constech.API.Domain.Services.Communication.Request;
 
 namespace Constech.API.Security.Mapping;
 

@@ -1,9 +1,11 @@
-using Constech.API.Authorization.Handlers.Implementations;
+using System.Text.Json.Serialization;
 using Constech.API.Authorization.Handlers.Interfaces;
 using Constech.API.Authorization.Settings;
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
 using Constech.API.Persistence.Repositories;
+using Constech.API.Security.Authorization.Handlers.Implementations;
+using Constech.API.Security.Authorization.Middleware;
 using Constech.API.Services;
 using Constech.API.Shared.Domain.Repositories;
 using Constech.API.Shared.Persistence.Contexts;
@@ -16,7 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(); //! Add CORS
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions( x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -85,6 +89,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+
 // Security Injection Configuration
 
 builder.Services.AddScoped<IJwtHandler, JwtHandler>();
@@ -125,6 +132,10 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseMiddleware<JwtMiddleware>();
+    
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
