@@ -1,7 +1,7 @@
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
-using Constech.API.Domain.Services.Communication;
+using Constech.API.Domain.Services.Communication.Response;
 using Constech.API.Shared.Domain.Repositories;
 
 namespace Constech.API.Services;

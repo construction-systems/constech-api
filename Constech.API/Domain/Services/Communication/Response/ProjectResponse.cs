@@ -1,7 +1,7 @@
 using Constech.API.Domain.Models;
 using Constech.API.Shared.Domain.Services.Communication;
 
-namespace Constech.API.Domain.Services.Communication;
+namespace Constech.API.Domain.Services.Communication.Response;
 
 public class ProjectResponse : BaseResponse<Project>
 {

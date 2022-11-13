@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using AutoMapper;
+using Constech.API.Authorization.Attributes;
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Services;
 using Constech.API.Resources.Project;
@@ -9,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Constech.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
