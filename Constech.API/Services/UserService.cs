@@ -51,6 +51,11 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
+    public User GetProfile()
+    {
+        return _userRepository.GetProfile();
+    }
+
     public async Task<User> GetByIdAsync(Guid id)
     {
         var user = await _userRepository.FindByIdAsync(id);

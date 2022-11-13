@@ -38,11 +38,10 @@ public class UsersController : ControllerBase
         var user = await _userService.RegisterAsync(request);
         return Ok(user);
     }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    [HttpGet]
+    public ActionResult GetProfile()
     {
-        var user = await _userService.GetByIdAsync(id);
+        var user = _userService.GetProfile();
         var resource = _mapper.Map<User, UserResource>(user);
         return Ok(resource);
     }

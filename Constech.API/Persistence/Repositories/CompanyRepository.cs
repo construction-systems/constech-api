@@ -2,17 +2,23 @@ using Constech.API.Domain.Models;
 using Constech.API.Domain.Repositories;
 using Constech.API.Shared.Persistence.Contexts;
 using Constech.API.Shared.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Constech.API.Persistence.Repositories;
 
 public class CompanyRepository : BaseRepository, ICompanyRepository
 {
-    public CompanyRepository(AppDbContext context) : base(context)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public CompanyRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor) : base(context)
     {
+        _httpContextAccessor = httpContextAccessor;
     }
-    public Task<IEnumerable<Company>> ListAsync()
+    public async Task<Company> ListAsync()
     {
-        throw new NotImplementedException();
+        var user = _httpContextAccessor.HttpContext?.Items["User"] as User;
+        return await _context.Companies
+            .Include(p => p.User)
+            .FirstOrDefaultAsync(p => p.UserId == user.Id);
     }
 
     public async Task AddAsync(Company company)

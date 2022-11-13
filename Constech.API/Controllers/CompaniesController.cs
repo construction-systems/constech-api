@@ -29,13 +29,20 @@ public class CompaniesController : ControllerBase
         _userService = userService;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(CompanyResource), 200)]
+    public async Task<CompanyResource> GetAsync()
+    {
+        var company = await _companyService.ListAsync();
+        return _mapper.Map<Company, CompanyResource>(company);
+    }
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromBody] SaveCompanyResource resource)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState.GetErrorMessages());
-        var userResource = resource.Admin;
-        var newUser = await _userService.RegisterAsync(userResource);
+        var newUser = await _userService.RegisterAsync(resource.Admin);
         var company = _mapper.Map<SaveCompanyResource, Company>(resource);
         company.UserId = newUser.Id;
         var result = await _companyService.SaveAsync(company);
@@ -44,6 +51,6 @@ public class CompaniesController : ControllerBase
             return BadRequest(result.Message);
         
         var companyResource = _mapper.Map<Company, CompanyResource>(result.Resource);
-        return Created(nameof(PostAsync),company);
+        return Created(nameof(PostAsync), new { company = companyResource, token = newUser.Token });
     }
 }

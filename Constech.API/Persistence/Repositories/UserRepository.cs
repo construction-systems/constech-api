@@ -8,7 +8,11 @@ namespace Constech.API.Persistence.Repositories;
 
 public class UserRepository : BaseRepository, IUserRepository
 {
-    public  UserRepository(AppDbContext context) : base(context) { }
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public  UserRepository(AppDbContext context, IHttpContextAccessor httpContextAccessor) : base(context)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
     
     public Task<IEnumerable<User>> ListAsync()
     {
@@ -40,6 +44,11 @@ public class UserRepository : BaseRepository, IUserRepository
     public User FindById(int id)
     {
         return _context.Users.Find(id);
+    }
+
+    public User GetProfile()
+    {
+        return _httpContextAccessor.HttpContext.Items["User"] as User;
     }
 
     public void Update(User user)

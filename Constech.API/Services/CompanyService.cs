@@ -32,4 +32,9 @@ public class CompanyService : ICompanyService
             return new CompanyResponse($"An error occurred while saving the company: {e.Message}");
         }
     }
+
+    public async Task<Company> ListAsync()
+    {
+        return await _companyRepository.ListAsync();
+    }
 }
