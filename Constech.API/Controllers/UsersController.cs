@@ -6,6 +6,7 @@ using Constech.API.Domain.Services.Communication;
 using Constech.API.Domain.Services.Communication.Request;
 using Constech.API.Resources.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Constech.API.Controllers;
 
@@ -25,7 +26,7 @@ public class UsersController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Authenticate(AuthenticateRequest request)
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
     {
         var response = await _userService.Authenticate(request);
         return Ok(response);
