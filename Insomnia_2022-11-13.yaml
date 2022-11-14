@@ -1,0 +1,276 @@
+_type: export
+__export_format: 4
+__export_date: 2022-11-14T03:44:38.739Z
+__export_source: insomnia.desktop.app:v2022.6.0
+resources:
+  - _id: req_95882d59ebab4d8aa889cc89e6445a0b
+    parentId: fld_0924c76ceb14449296d05eb3951aa2e8
+    modified: 1668361912998
+    created: 1668332187939
+    url: "{{ _.V1_API }}/companies"
+    name: GET
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{{ _.API_TOKEN }}"
+    metaSortKey: -1668332187939
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_0924c76ceb14449296d05eb3951aa2e8
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668322662902
+    created: 1668322662902
+    name: Company
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1668322662902
+    _type: request_group
+  - _id: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    parentId: null
+    modified: 1668319292707
+    created: 1668319292707
+    name: Constech
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_3635db616e0343c0994cd573d2470666
+    parentId: fld_0924c76ceb14449296d05eb3951aa2e8
+    modified: 1668393658533
+    created: 1668322664425
+    url: "{{ _.V1_API }}/companies"
+    name: REGISTER
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Alessandro's Kingdom",
+        	"description": "Lorem ipsum",
+        	"admin": {
+        		"firstName": "Alessandro",
+        		"lastName": "Chumpitaz",
+        		"password": "12345",
+        		"username": "hyper123"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1668322664425
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0c566bc1c6e54d6aab8180e436a0900a
+    parentId: fld_50300b48edf24f0eab16e8321fea5cbc
+    modified: 1668363118551
+    created: 1668319828346
+    url: "{{ _.V1_API }}/projects"
+    name: GET ALL
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{{ _.API_TOKEN }}"
+    metaSortKey: -1668319828346
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_50300b48edf24f0eab16e8321fea5cbc
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668319826925
+    created: 1668319826925
+    name: Projects
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1668319826925
+    _type: request_group
+  - _id: req_b88291d730614695abc81ee7677193ed
+    parentId: fld_d9552285a00544318e20f957d266fccb
+    modified: 1668363107531
+    created: 1668361851998
+    url: "{{ _.V1_API }}/users"
+    name: PROFILE
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{{ _.API_TOKEN }}"
+    metaSortKey: -1668361851998
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_d9552285a00544318e20f957d266fccb
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668319297317
+    created: 1668319297317
+    name: User
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1668319297317
+    _type: request_group
+  - _id: req_ee5f7dae8460457dbe5f48b11b99f29d
+    parentId: fld_d9552285a00544318e20f957d266fccb
+    modified: 1668376776695
+    created: 1668319848119
+    url: "{{ _.V1_API }}/users/login"
+    name: LOGIN
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "alessandro54",
+        	"password": "12345"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_cba0d76ff9184945a5cedf98b0068ee4
+    authentication: {}
+    metaSortKey: -1668319848119
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f8736ed7e44840f78ba5bdb6f8993b27
+    parentId: fld_d9552285a00544318e20f957d266fccb
+    modified: 1668393655727
+    created: 1668319299886
+    url: "{{ _.V1_API }}/users/register"
+    name: REGISTER
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"firstName": "Alessandro",
+        	"lastName": "Chumpitaz",
+        	"username": "alessandro54",
+        	"password": "12345",
+        	"photoUrl": "https://www.primefaces.org/primevue/demo/images/organization/walter.jpg",
+        	"occupation": "Software Engineer",
+        	"bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1668319299886
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4f1c7348038540fb92de6e257664291d
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668362026652
+    created: 1668319679399
+    url: "{{ _.API_URL }}"
+    name: HOME
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1668319297267
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_ea6608f011b67cd54fa04aaed6fe1f85f43b17e5
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668319690300
+    created: 1668319292710
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: {}
+    color: null
+    isPrivate: false
+    metaSortKey: 1668319292710
+    _type: environment
+  - _id: jar_ea6608f011b67cd54fa04aaed6fe1f85f43b17e5
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668319292711
+    created: 1668319292711
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_cd6b10adbfb1412ca42de023ed18223d
+    parentId: wrk_27ca20bbe2f446098cbc80d7ff55e764
+    modified: 1668319292708
+    created: 1668319292708
+    fileName: Constech
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: env_f0606fb10705427e983da045c6465459
+    parentId: env_ea6608f011b67cd54fa04aaed6fe1f85f43b17e5
+    modified: 1668382037387
+    created: 1668319692687
+    name: Development
+    data:
+      API_URL: https://localhost:7214
+      V1_API: https://localhost:7214/api/v1
+      API_TOKEN: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5ZjNhZjU0Ny0xYjU3LTRlYTQtNjMyNS0wOGRhYzVjMjM2NDUiLCJ1bmlxdWVfbmFtZSI6ImFsZXNzYW5kcm81NCIsIm5iZiI6MTY2ODM4MDk4MSwiZXhwIjoxNjY4OTg1NzgxLCJpYXQiOjE2NjgzODA5ODF9.2j9z86EcvTHpOELO4KKqjg07Cq4XckCc8fbRf0Li7Hsp7Qfqzs0b_gxDgAD3sePGSSKEBUifsOmFTC8qAC57zQ
+    dataPropertyOrder:
+      "&":
+        - API_URL
+        - V1_API
+        - API_TOKEN
+    color: "#18ff14"
+    isPrivate: false
+    metaSortKey: 1668319692687
+    _type: environment
