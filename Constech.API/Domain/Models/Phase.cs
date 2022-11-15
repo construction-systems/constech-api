@@ -8,4 +8,7 @@ public class Phase
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public DateTime DateTime { get; set; } = DateTime.Now;
+    
+    public Guid ProjectId { get; set; }
+    public Project Project { get; set; }
 }

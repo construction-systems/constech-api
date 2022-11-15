@@ -15,7 +15,8 @@ namespace Constech.API.Controllers;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Create, read, update and delete Projects")]
+[Consumes(MediaTypeNames.Application.Json)]
+[SwaggerTag("Create, read, update and delete Companies")]
 public class CompaniesController : ControllerBase
 {
     private readonly ICompanyService _companyService;

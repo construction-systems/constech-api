@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -16,11 +17,13 @@ public class User
     public string? Phone { get; set; }
     public string? Occupation { get; set; }
     public string? Bio { get; set; }
-    public DateTime? CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     // Relationships
+    [JsonIgnore] 
+    public Collection<Follow> FollowingProjects { get; set; } = new();
     public Company? Company { get; set; }
     [JsonIgnore] 
-    public Configuration Configuration { get; set; } = new Configuration();
+    public Configuration Configuration { get; set; } = new();
     [JsonIgnore]
     public string Password { get; set; }
 }
