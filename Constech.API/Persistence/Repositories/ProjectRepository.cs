@@ -25,7 +25,7 @@ public class ProjectRepository : BaseRepository, IProjectRepository
         await _context.Projects.AddAsync(project);
     }
 
-    public async Task<Project?> FindByIdAsync(int projectId)
+    public async Task<Project?> FindByIdAsync(Guid projectId)
     {
         return await _context.Projects
             .FirstOrDefaultAsync(p => p.Id == projectId);

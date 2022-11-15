@@ -1,19 +1,20 @@
 using System.Net.Mime;
 using AutoMapper;
-using Constech.API.Authorization.Attributes;
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Services;
 using Constech.API.Resources.Project;
 using Constech.API.Shared.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Constech.API.Controllers;
 
-[Authorize]
+[Authorization.Attributes.Authorize]
 [ApiController]
 [Route("/api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
+[Consumes(MediaTypeNames.Application.Json)]
 [SwaggerTag("Create, read, update and delete Projects")]
 public class ProjectsController : ControllerBase
 {
@@ -26,6 +27,7 @@ public class ProjectsController : ControllerBase
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<ProjectResource>), 200)]
     public async Task<IEnumerable<ProjectResource>> GetAllAsync()
