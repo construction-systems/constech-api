@@ -5,6 +5,7 @@ using Constech.API.Domain.Enums;
 
 namespace Constech.API.Domain.Models;
 
+
 public class User
 {
     public Guid Id { get; set; }
@@ -12,6 +13,7 @@ public class User
     public string LastName { get; set; }
     public string Username { get; set; }
     public string? PhotoUrl { get; set; }
+    public string? Phone { get; set; }
     public string? Occupation { get; set; }
     public string? Bio { get; set; }
     public DateTime? CreatedAt { get; set; } = DateTime.Now;

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Constech.API.Authorization.Handlers.Interfaces;
 using Constech.API.Authorization.Settings;
+using Constech.API.Domain.Models;
 using Constech.API.Domain.Repositories;
 using Constech.API.Domain.Services;
 using Constech.API.Persistence.Repositories;
@@ -8,6 +9,7 @@ using Constech.API.Security.Authorization.Handlers.Implementations;
 using Constech.API.Security.Authorization.Middleware;
 using Constech.API.Services;
 using Constech.API.Shared.Domain.Repositories;
+using Constech.API.Shared.Persistence;
 using Constech.API.Shared.Persistence.Contexts;
 using Constech.API.Shared.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(); //! Add CORS
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions( x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddHttpContextAccessor();
 
@@ -113,18 +116,24 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 using (var context = scope.ServiceProvider.GetService<AppDbContext>())
 {
-  context.Database.EnsureCreated();
+    if (app.Environment.IsDevelopment())
+        context.Database.EnsureDeleted();
+    
+    context.Database.EnsureCreated();
+
+    if (app.Environment.IsDevelopment())
+        new Seeder(context).Seed();
 }
 
 
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI(opts =>
-  {
-    opts.SwaggerEndpoint("v1/swagger.json", "v1");
-    opts.RoutePrefix = "swagger";
-  });
+    app.UseSwagger();
+    app.UseSwaggerUI(opts =>
+    {
+        opts.SwaggerEndpoint("v1/swagger.json", "v1");
+        opts.RoutePrefix = "swagger";
+    });
 }
 
 app.UseCors(x => x
@@ -135,7 +144,7 @@ app.UseCors(x => x
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseMiddleware<JwtMiddleware>();
-    
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
