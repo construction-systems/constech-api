@@ -8,6 +8,10 @@ namespace Constech.API.Shared.Persistence.Contexts;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Configuration> Configurations { get; set; }
     public DbSet<Company> Companies { get; set; }
@@ -15,9 +19,6 @@ public class AppDbContext : DbContext
     public DbSet<Phase> Phases { get; set; }
     public DbSet<Thread> Threads { get; set; }
     public DbSet<Follow> Follows { get; set; }
-    public AppDbContext(DbContextOptions options) : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -30,8 +31,10 @@ public class AppDbContext : DbContext
         builder.Entity<User>().Property(p => p.FirstName).IsRequired();
         builder.Entity<User>().Property(p => p.LastName).IsRequired();
         //* Has One User
-        builder.Entity<User>().HasOne(p => p.Company).WithOne(p => p.User).HasForeignKey<Company>(p => p.UserId)
-            .IsRequired(false);
+        builder.Entity<User>()
+            .HasOne(p => p.Company)
+            .WithOne(p => p.User)
+            .HasForeignKey<Company>(p => p.UserId);
         //* Has One Configuration
         builder.Entity<User>().HasOne(p => p.Configuration).WithOne(p => p.User)
             .HasForeignKey<Configuration>(p => p.UserId);
@@ -40,7 +43,7 @@ public class AppDbContext : DbContext
         builder.Entity<Configuration>().HasKey(p => p.Id);
         builder.Entity<Configuration>().Property(p => p.SupportedLocales).HasConversion(
             x => string.Join(",", x.Select(e => e.ToString("D")).ToArray()),
-            x => x.Split(new[] { ',' }).Select(e => Enum.Parse(typeof(Locale), e)).Cast<Locale>().ToList());
+            x => x.Split(new[] {','}).Select(e => Enum.Parse(typeof(Locale), e)).Cast<Locale>().ToList());
         //? Companies Table
         builder.Entity<Company>().ToTable("Companies");
         builder.Entity<Company>().HasKey(p => p.Id);
@@ -84,7 +87,7 @@ public class AppDbContext : DbContext
         //* Has Many Projects
         builder.Entity<Follow>().HasOne(p => p.FollowingProject).WithMany(p => p.Followers)
             .HasForeignKey(p => p.FollowingProjectId);
-        
+
         builder.UseSnakeCaseNamingConvention();
     }
 }

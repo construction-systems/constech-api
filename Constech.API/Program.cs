@@ -116,13 +116,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 using (var context = scope.ServiceProvider.GetService<AppDbContext>())
 {
-    if (app.Environment.IsDevelopment())
-        context.Database.EnsureDeleted();
+    // if (app.Environment.IsDevelopment())
+    //     context.Database.EnsureDeleted();
     
     context.Database.EnsureCreated();
 
-    if (app.Environment.IsDevelopment())
-        new Seeder(context).Seed();
+    // if (app.Environment.IsDevelopment())
+    //     new Seeder(context).Seed();
 }
 
 

@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Constech.API.Domain.Models;
 
 public class Company
@@ -15,5 +13,5 @@ public class Company
     public User User { get; set; }
 
     //? Projects
-    public ICollection<Project> Projects { get; set; } = new Collection<Project>();
+    public IList<Project> Projects { get; set; } = new List<Project>();
 }

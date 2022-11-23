@@ -9,7 +9,7 @@ public interface IUserService
     Task<AuthenticateResponse> Authenticate(AuthenticateRequest request);
     Task<IEnumerable<User>> ListAsync();
     Task<User> GetByIdAsync(Guid id);
-    User GetProfile();
+    Task<User> GetProfile();
     Task<AuthenticateResponse> RegisterAsync(RegisterRequest model);
     Task DeleteAsync(int id);
 }

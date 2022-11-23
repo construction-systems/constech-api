@@ -6,5 +6,6 @@ namespace Constech.API.Domain.Services;
 public interface ICompanyService
 {
     Task<CompanyResponse> SaveAsync(Company company);
-    Task<Company> ListAsync();
+    Task<Company> FindByUserId(Guid userId);
+    Task<Company> GetCompany();
 }

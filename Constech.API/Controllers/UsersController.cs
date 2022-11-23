@@ -4,6 +4,7 @@ using Constech.API.Authorization.Attributes;
 using Constech.API.Domain.Models;
 using Constech.API.Domain.Services;
 using Constech.API.Domain.Services.Communication.Request;
+using Constech.API.Resources.Company;
 using Constech.API.Resources.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ namespace Constech.API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly ICompanyService _companyService;
     private readonly IMapper _mapper;
 
-    public UsersController(IUserService userService, IMapper mapper)
+    public UsersController(IUserService userService, ICompanyService companyService, IMapper mapper)
     {
         _userService = userService;
+        _companyService = companyService;
         _mapper = mapper;
     }
 
@@ -42,10 +45,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetProfile()
+    [HttpGet("profile")]
+    public async Task<ActionResult> GetProfile()
     {
-        var user = _userService.GetProfile();
+        var user = await _userService.GetProfile();
+        var company = await _companyService.FindByUserId(user.Id);
         var resource = _mapper.Map<User, UserResource>(user);
+        if (company != null)
+            resource.Company = _mapper.Map<Company, CompanyResource>(company);
         return Ok(resource);
     }
 }
