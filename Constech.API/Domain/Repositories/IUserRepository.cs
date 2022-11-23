@@ -10,7 +10,7 @@ public interface IUserRepository
     Task<User?> FindByUsernameAsync(string username);
     public bool ExistsByUsername(string username);
     User FindById(int id);
-    User GetProfile();
+    public Task<User> GetProfile();
     void Update(User user);
     void Remove(User user);
 }

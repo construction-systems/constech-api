@@ -46,9 +46,10 @@ public class UserRepository : BaseRepository, IUserRepository
         return _context.Users.Find(id);
     }
 
-    public User GetProfile()
+    public async Task<User> GetProfile()
     {
-        return _httpContextAccessor.HttpContext.Items["User"] as User;
+        var reqUser = _httpContextAccessor.HttpContext.Items["User"] as User;
+        return await _context.Users.FindAsync(reqUser.Id);
     }
 
     public void Update(User user)

@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using Bogus;
 using Constech.API.Domain.Models;
+using Constech.API.Services;
 using Constech.API.Shared.Persistence.Contexts;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace Constech.API.Shared.Persistence;
 
@@ -32,7 +34,7 @@ public class Seeder
             {
                 FirstName = _faker.Name.FirstName(),
                 LastName = _faker.Name.LastName(),
-                Password = "12345",
+                Password = BCryptNet.HashPassword("12345"),
                 Username = "user" + i,
                 Occupation = _faker.Name.JobTitle(),
                 PhotoUrl = _faker.Image.PicsumUrl(),

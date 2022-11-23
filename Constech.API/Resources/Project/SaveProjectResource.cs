@@ -3,13 +3,16 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Constech.API.Resources.Project;
 
-[SwaggerSchema(Required = new []{ "Title" })]
+[SwaggerSchema(Required = new[] {"Title"})]
 public class SaveProjectResource
 {
     [SwaggerSchema("Project Title")]
     [Required]
     public string Title { get; set; }
-    
-    [SwaggerSchema("Project Description")]
-    public string Description { get; set; }
+
+    [SwaggerSchema("Project Description")] public string Description { get; set; }
+
+    public DateTime? DueDate { get; set; }
+
+    public int? CompanyId { get; set; }
 }

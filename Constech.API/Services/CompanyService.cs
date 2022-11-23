@@ -22,9 +22,9 @@ public class CompanyService : ICompanyService
         try
         {
             await _companyRepository.AddAsync(company);
-            
+
             await _unitOfWork.CompleteAsync();
-            
+
             return new CompanyResponse(company);
         }
         catch (Exception e)
@@ -33,8 +33,13 @@ public class CompanyService : ICompanyService
         }
     }
 
-    public async Task<Company> ListAsync()
+    public async Task<Company> FindByUserId(Guid userId)
     {
-        return await _companyRepository.ListAsync();
+        return await _companyRepository.FindByUserIdAsync(userId);
+    }
+
+    public async Task<Company> GetCompany()
+    {
+        return await _companyRepository.GetCurrentCompany();
     }
 }
